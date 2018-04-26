@@ -1,0 +1,4 @@
+com/person/rest/webservice/PeopleAPI.class
+com/person/rest/webservice/PeopleService.class
+com/person/rest/webservice/DbConnection.class
+com/person/rest/webservice/People.class

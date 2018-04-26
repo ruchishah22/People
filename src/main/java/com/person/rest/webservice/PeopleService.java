@@ -18,26 +18,48 @@ public class PeopleService {
 	List<People> listOfPeople = new ArrayList<People>();
 	
 	public boolean validate(People p) throws Exception {
-		boolean validated = false;
+		boolean validated = true;
 		String name = p.getName();
 		int age = p.getAge();
 		Date dob = p.getDob();
 		String email = p.getEmail();
 		
-		if(name == null || name.trim().length() == 0)
+		if(name == null || name.trim().length() == 0){
+			validated = false;
 			throw new Exception("Name can't be empty.");
-		if(age<=0)
+		}
+		if(age<=0) {
+			validated = false;
 			throw new Exception("Age can't be empty");
-		if(dob == null)
+		}
+		if(dob == null) {
+			validated = false;
 			throw new Exception("DOB can't be empty");
-		if(email == null || email.trim().length() == 0)
+		}
+		if(email == null || email.trim().length() == 0) {
+			validated = false;
 			throw new Exception("Emails can't be empty");
+		}
+		return validated;
+	}
+	
+	final String VALIDATE_PEOPLE = "select count(*) from people where id = ?";
+	public boolean validateID(String id) throws Exception {
+		boolean validated = false;
+		  conn=connect.getDbConnection();
+	      pst=conn.prepareStatement(VALIDATE_PEOPLE);
+	      pst.setString(1, id);
+	      int record = pst.executeUpdate();
+	      if(record == 0)
+	    	  	throw new Exception("The person with id :" + id + " doesn't exist.");
+	      else
+	    	  	validated = true;
 		return validated;
 	}
 	
 	final String GET_PEOPLE = "select * from people";
 	public List<People> getAllPeople() throws Exception{
-		conn=connect.getDbConnection();
+	    conn=connect.getDbConnection();
         pst=conn.prepareStatement(GET_PEOPLE);
         rs = pst.executeQuery();
         while( rs != null) {

@@ -36,7 +36,8 @@ public class PeopleAPI {
 	public People createPeople(People p) {
 		People ppl = new People();
 		try {
-			ppl = service.create();
+			if(service.validate(p))
+				ppl = service.create();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,7 +50,9 @@ public class PeopleAPI {
 	public People getPeople(@PathParam("id") String id) {
 		People ppl = new People();
 		try {
-			ppl = service.getPeople(id);
+			if(service.validateID(id)) {
+				ppl = service.getPeople(id);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -63,20 +66,26 @@ public class PeopleAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public People modifyPeople(@PathParam("id") String id, People p) {
 		try {
-			p = service.updatePeople(id, p);
+			if(service.validateID(id)) {
+				if(service.validate(p))
+					p = service.updatePeople(id, p);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		return p;
 		
-
 	}
 	
 	@DELETE
 	@Path("/{id}")
 	public Response removePeople(@PathParam("id") String id) {
 		try {
-			service.removePeople(id);
+			if(service.validateID(id)) {
+				service.removePeople(id);
+			} else {
+				return Response.status(400).entity("The ID is not valid").build();
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
