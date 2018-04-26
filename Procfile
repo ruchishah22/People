@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -cp  target/PersomWebservice.war
+web: java -Dserver.port=$PORT -cp  target/PersonWebservice.war
