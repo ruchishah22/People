@@ -8,9 +8,11 @@ public class DbConnection {
 	public Connection getDbConnection() throws Exception {
 		Connection connection = null;
 		try {
-			String connectionURL = "jdbc:mysql://localhost:3306/codezone4";
-			Class.forName("org.postgresql.").newInstance();
-			connection = DriverManager.getConnection(connectionURL, "root", "");
+			String connectionURL = "jdbc:postgresql://ec2-107-20-249-68.compute-1.amazonaws.com:5432/d966j9djqou3o3";
+			String userName = "opdnggiznnrvbp";
+			String password = "e6c6372f4ca1e01bb972db4eb56201f9d4f094f7d4c290ef32053820d298bc6e";
+			Class.forName("org.postgresql.Driver").newInstance();
+			connection = DriverManager.getConnection(connectionURL, userName, password);
 			
 		} catch(Exception e) {
 			throw e;

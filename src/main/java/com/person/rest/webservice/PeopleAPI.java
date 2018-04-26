@@ -1,6 +1,8 @@
 package com.person.rest.webservice;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -17,6 +19,21 @@ import javax.ws.rs.core.Response;
 @Path("/people")
 public class PeopleAPI {
 	PeopleService service = new PeopleService();
+	
+	@GET
+	@Path("/get")
+	@Produces(MediaType.APPLICATION_JSON)
+	public People getTrackInJSON() {
+
+		People track = new People();
+		track.setId("1234");
+		track.setName("Jose");
+		track.setAge(5);
+		track.setDob("03-30-2013");
+
+		return track;
+
+	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

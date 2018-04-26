@@ -7,10 +7,10 @@ public class People {
 	private String id;
 	private String name;
 	private int age;
-	private Date dob;
+	private String dob;
 	private String email;
 	
-	public People(String name, int age, Date dob, String email) {
+	public People(String name, int age, String dob, String email) {
 		this.name = name;
 		this.age = age;
 		this.dob = dob;
@@ -39,10 +39,10 @@ public class People {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	public Date getDob() {
+	public String getDob() {
 		return dob;
 	}
-	public void setDob(Date dob) {
+	public void setDob(String dob) {
 		this.dob = dob;
 	}
 	public String getEmail() {

@@ -21,7 +21,7 @@ public class PeopleService {
 		boolean validated = true;
 		String name = p.getName();
 		int age = p.getAge();
-		Date dob = p.getDob();
+		String dob = p.getDob();
 		String email = p.getEmail();
 		
 		if(name == null || name.trim().length() == 0){
@@ -67,7 +67,7 @@ public class PeopleService {
         		ppl.setId(rs.getString("id"));
         		ppl.setName(rs.getString("name"));
         		ppl.setAge(rs.getInt("age"));
-        		ppl.setDob(rs.getDate("dob"));
+        		ppl.setDob(rs.getString("dob"));
         		ppl.setEmail(rs.getString("email"));
         		listOfPeople.add(ppl);
         }
@@ -99,7 +99,7 @@ public class PeopleService {
         		ppl.setId(rs.getString("id"));
         		ppl.setName(rs.getString("name"));
         		ppl.setAge(rs.getInt("age"));
-        		ppl.setDob(rs.getDate("dob"));
+        		ppl.setDob(rs.getString("dob"));
         		ppl.setEmail(rs.getString("email"));
         }
         pst.close();
@@ -113,7 +113,7 @@ public class PeopleService {
         pst=conn.prepareStatement(UPDATE_PEOPLE);
         pst.setString(1, p.getName());
         pst.setInt(2, p.getAge());
-        pst.setDate(3, p.getDob());
+        pst.setString(3, p.getDob());
         pst.setString(4, p.getEmail());
         pst.setString(5, id);
         int record = pst.executeUpdate();
@@ -129,7 +129,7 @@ public class PeopleService {
                 		ppl.setId(rs1.getString("id"));
                 		ppl.setName(rs1.getString("name"));
                 		ppl.setAge(rs1.getInt("age"));
-                		ppl.setDob(rs1.getDate("dob"));
+                		ppl.setDob(rs1.getString("dob"));
                 		ppl.setEmail(rs1.getString("email"));
                 }
         		
