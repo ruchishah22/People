@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class People {
 	
-	private String id;
+	private int id;
 	private String name;
 	private int age;
 	private String dob;
@@ -21,11 +21,11 @@ public class People {
 		
 	}
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setId(int i) {
+		this.id = i;
 	}
 	public String getName() {
 		return name;

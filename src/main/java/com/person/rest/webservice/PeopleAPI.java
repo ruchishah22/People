@@ -26,7 +26,7 @@ public class PeopleAPI {
 	public People getTrackInJSON() {
 
 		People track = new People();
-		track.setId("1234");
+		track.setId(1234);
 		track.setName("Jose");
 		track.setAge(5);
 		track.setDob("03-30-2013");
@@ -54,7 +54,7 @@ public class PeopleAPI {
 		People ppl = new People();
 		try {
 			if(service.validate(p))
-				ppl = service.create();
+				ppl = service.create(p);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -64,12 +64,14 @@ public class PeopleAPI {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public People getPeople(@PathParam("id") String id) {
+	public People getPeople(@PathParam("id") int id) {
 		People ppl = new People();
 		try {
-			if(service.validateID(id)) {
-				ppl = service.getPeople(id);
-			}
+			    if(service.validateID(id)) {
+					ppl = service.getPeople(id);
+			    } /*else {
+					return Response.status(400).entity(ppl).build();
+				}*/
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -81,7 +83,7 @@ public class PeopleAPI {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public People modifyPeople(@PathParam("id") String id, People p) {
+	public People modifyPeople(@PathParam("id") int id, People p) {
 		try {
 			if(service.validateID(id)) {
 				if(service.validate(p))
@@ -96,10 +98,15 @@ public class PeopleAPI {
 	
 	@DELETE
 	@Path("/{id}")
-	public Response removePeople(@PathParam("id") String id) {
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response removePeople(@PathParam("id") int id) {
 		try {
 			if(service.validateID(id)) {
-				service.removePeople(id);
+				int record = service.removePeople(id);
+				if(record == 0)
+					return Response.status(400).entity("The record isn't removed").build();
+				else
+					return Response.status(200).entity("The record is successfully removed").build();
 			} else {
 				return Response.status(400).entity("The ID is not valid").build();
 			}

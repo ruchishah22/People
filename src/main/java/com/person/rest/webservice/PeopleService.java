@@ -44,16 +44,20 @@ public class PeopleService {
 	}
 	
 	final String VALIDATE_PEOPLE = "select count(*) from people where id = ?";
-	public boolean validateID(String id) throws Exception {
+	public boolean validateID(int id) throws Exception {
 		boolean validated = false;
 		  conn=connect.getDbConnection();
 	      pst=conn.prepareStatement(VALIDATE_PEOPLE);
-	      pst.setString(1, id);
-	      int record = pst.executeUpdate();
-	      if(record == 0)
-	    	  	throw new Exception("The person with id :" + id + " doesn't exist.");
-	      else
-	    	  	validated = true;
+	      pst.setInt(1, id);
+	      rs = pst.executeQuery();
+	      System.out.println("validateID sql: "+ pst);
+	      while( rs != null && rs.next()) {
+		    	  int count = rs.getInt("count");
+		    	  if(count == 0)
+		    	  	throw new Exception("The person with id :" + id + " doesn't exist.");
+		      else
+		    	  	validated = true;
+	      }
 		return validated;
 	}
 	
@@ -62,10 +66,11 @@ public class PeopleService {
 	    conn=connect.getDbConnection();
         pst=conn.prepareStatement(GET_PEOPLE);
         rs = pst.executeQuery();
-        while( rs != null) {
+        System.out.println("getAllPeople sql: "+ pst);
+        while( rs != null && rs.next()) {
         		ppl = new People();
-        		ppl.setId(rs.getString("id"));
-        		ppl.setName(rs.getString("name"));
+        		ppl.setId(rs.getInt("id"));
+       		ppl.setName(rs.getString("name"));		
         		ppl.setAge(rs.getInt("age"));
         		ppl.setDob(rs.getString("dob"));
         		ppl.setEmail(rs.getString("email"));
@@ -75,58 +80,68 @@ public class PeopleService {
             rs.close();
             return listOfPeople;
 	}
-	
-	final String CREATE_PEOPLE = "insert into people (name, age, dob, email) values (?,?,?,?) ";
-	public People create()  throws Exception{
+								
+	final String CREATE_PEOPLE = "insert into people (id, name, age, dob, email) values (DEFAULT,?,?,?,?) returning id";
+	public People create(People p)  throws Exception{
+		int returnedId=0;
 		conn=connect.getDbConnection();
         PreparedStatement pst=conn.prepareStatement(CREATE_PEOPLE);
+        pst.setString(1, p.getName());
+        pst.setInt(2, p.getAge());
+        pst.setString(3, p.getDob());
+        pst.setString(4, p.getEmail());
         rs = pst.executeQuery();
-        
-        
+        System.out.println("create sql: "+ pst);
+        while( rs != null && rs.next()) {	    		
+        		returnedId=rs.getInt("id");	    		
+	    }        
+        ppl = getPeople(returnedId);
         pst.close();
         rs.close();
-		return null;
+		return ppl;
 	}
 	
 	final String GET_PEOPLE_ID = "select * from people where id = ?";
-	public People getPeople(String id) throws Exception {
+	public People getPeople(int id) throws Exception {
 		conn=connect.getDbConnection();
         pst=conn.prepareStatement(GET_PEOPLE_ID);
-        pst.setString(1, id);
+        pst.setInt(1, id); 
         rs = pst.executeQuery();
-        while( rs != null) {
-        		ppl = new People();
-        		ppl.setId(rs.getString("id"));
-        		ppl.setName(rs.getString("name"));
-        		ppl.setAge(rs.getInt("age"));
-        		ppl.setDob(rs.getString("dob"));
-        		ppl.setEmail(rs.getString("email"));
-        }
+        System.out.println("getPeople sql: "+ pst);
+	        while( rs != null && rs.next()) {
+	        		ppl = new People();
+	        		ppl.setId(rs.getInt("id"));
+	        		ppl.setName(rs.getString("name"));
+	        		ppl.setAge(rs.getInt("age"));
+	        		ppl.setDob(rs.getString("dob"));
+	        		ppl.setEmail(rs.getString("email"));
+	        }
+        
         pst.close();
         rs.close();
 		return ppl;
 	}
 	
 	final String UPDATE_PEOPLE = "update people set name = ?, age = ?, dob = ?, email = ? where id = ? ";
-	public People updatePeople(String id, People p)  throws Exception{
+	public People updatePeople(int id, People p)  throws Exception{
 		conn=connect.getDbConnection();
         pst=conn.prepareStatement(UPDATE_PEOPLE);
         pst.setString(1, p.getName());
         pst.setInt(2, p.getAge());
         pst.setString(3, p.getDob());
         pst.setString(4, p.getEmail());
-        pst.setString(5, id);
+        pst.setInt(5, id);
         int record = pst.executeUpdate();
-        
+        System.out.println("updatePeople sql: "+ pst);
         if(record == 0) {
         	 	throw new Exception("The record isn't modified");
         } else {
         		pst1 = conn.prepareStatement(GET_PEOPLE_ID);
-        		pst1.setString(1, id);
+        		pst1.setInt(1, id);
         		rs1 = pst.executeQuery();
                 while( rs1 != null) {
                 		ppl = new People();
-                		ppl.setId(rs1.getString("id"));
+                		ppl.setId(rs1.getInt("id"));
                 		ppl.setName(rs1.getString("name"));
                 		ppl.setAge(rs1.getInt("age"));
                 		ppl.setDob(rs1.getString("dob"));
@@ -142,17 +157,20 @@ public class PeopleService {
 		return ppl;
 	}
 	
-	final String DELETE_PEOPLE = "delete * from people where id = ?";
-	public void removePeople(String id) throws Exception {
+	final String DELETE_PEOPLE = "delete from people where id = ?";
+	public int removePeople(int id) throws Exception {
+		int count = 0;
 		conn=connect.getDbConnection();
         pst=conn.prepareStatement(DELETE_PEOPLE);
-        pst.setString(1, id);
+        pst.setInt(1, id);
         int record = pst.executeUpdate();
+        System.out.println("removePeople sql: "+ pst);
         if(record==0){
 			throw new Exception("The record isn't modified");
 		}else{
-			
+			count = 1;
 		}
-		
+		return count;
 	}
+	
 }
