@@ -8,12 +8,12 @@ public class DbConnection {
 	public Connection getDbConnection() throws Exception {
 		Connection connection = null;
 		try {
-			/*String connectionURL = "jdbc:postgresql://ec2-54-243-54-6.compute-1.amazonaws.com:5432/da4s06a4872dbg?sslmode=require";
+			String connectionURL = "jdbc:postgresql://ec2-54-243-54-6.compute-1.amazonaws.com:5432/da4s06a4872dbg?sslmode=require";
 			String userName = "hcbpgftammbgxq";
-			String password = "ac377244cab942f0b9e3c84ac82f69bb9717fb19cd583814a1c2d662714144d1";*/
-			String connectionURL = "jdbc:postgresql://localhost:5432/mytestdb";
+			String password = "ac377244cab942f0b9e3c84ac82f69bb9717fb19cd583814a1c2d662714144d1";
+			/*String connectionURL = "jdbc:postgresql://localhost:5432/mytestdb";
 			String userName = "rus9029";
-			String password = "";
+			String password = "";*/
 			Class.forName("org.postgresql.Driver").newInstance();
 			connection = DriverManager.getConnection(connectionURL, userName, password);
 			
