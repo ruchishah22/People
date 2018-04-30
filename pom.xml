@@ -51,11 +51,11 @@
 			<version>1.9</version>
     </dependency>
     
-       <!--   <dependency>
+        <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>
             <version>1.1.1</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
@@ -93,12 +93,14 @@
   <plugins>
  
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
+				<version>2.6</version>
 				<configuration>
-					<warSourceDirectory>WebContent</warSourceDirectory>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
+                        <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                        <warName>PersonWebservice</warName>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                 </configuration>
 			</plugin>
  
 			<plugin>
