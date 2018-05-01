@@ -45,7 +45,7 @@ public class PeopleAPI {
 			error = service.validate(p);
 			if(error.getStatusCode() != 420) {
 				ppl = service.create(p);
-				return Response.status(Response.Status.OK).entity(ppl).type(MediaType.APPLICATION_JSON).build();
+				return Response.status(Response.Status.CREATED).entity(ppl).type(MediaType.APPLICATION_JSON).build();
 			} else {	
 				error = new Error(error.getStatusCode(),error.getStatusMessage(),uri.getRequestUri().toString()) ;		
 			    return Response.status(Response.Status.BAD_REQUEST).entity(error).type(MediaType.APPLICATION_JSON).build();
@@ -120,10 +120,10 @@ public class PeopleAPI {
 				if(record == 0) {
 					error = new Error(400,"Requested Entity is not removed",uri.getRequestUri().toString()) ;			
 				} else {
-					return Response.status(Response.Status.OK).entity("Requested Entity is successfully removed").type(MediaType.APPLICATION_JSON).build();
+					return Response.status(Response.Status.NO_CONTENT).entity("Requested Entity is successfully removed").type(MediaType.APPLICATION_JSON).build();
 				}
 			} else {
-				error = new Error(400,"Person with id " + id + " not found",uri.getRequestUri().toString()) ;
+				error = new Error(400,"Person with id " + id + " not found ",uri.getRequestUri().toString()) ;
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
