@@ -7,42 +7,12 @@
   <version>1.0.0-SNAPSHOT</version>
   <name>PersonWebservice Maven Webapp</name>
   <url>http://maven.apache.org</url>
- <!--  <properties>
-    <tomcat.version>8.5.30</tomcat.version>
-  </properties>-->
   <dependencies>
   
-   <!-- <dependency>
-        <groupId>org.apache.tomcat.embed</groupId>
-        <artifactId>tomcat-embed-core</artifactId>
-        <version>${tomcat.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.tomcat.embed</groupId>
-        <artifactId>tomcat-embed-jasper</artifactId>
-        <version>${tomcat.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.tomcat</groupId>
-        <artifactId>tomcat-jasper</artifactId>
-        <version>${tomcat.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.tomcat</groupId>
-        <artifactId>tomcat-jasper-el</artifactId>
-        <version>${tomcat.version}</version>
-    </dependency>
-  <dependency>
-        <groupId>org.apache.tomcat</groupId>
-        <artifactId>tomcat-jsp-api</artifactId>
-        <version>${tomcat.version}</version>
-    </dependency>
-  
-  -->
     <dependency>
 		    <groupId>junit</groupId>
 		    <artifactId>junit</artifactId>
-		    <version>3.8.1</version>
+		    <version>4.2</version>
 		    <scope>test</scope>
     </dependency>
     <dependency>
@@ -134,30 +104,7 @@
             </executions>
         </plugin>
         
-     <!--     
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>appassembler-maven-plugin</artifactId>
-            <version>2.0.0</version>
-            <configuration>
-                <assembleDirectory>target</assembleDirectory>
-                <programs>
-                    <program>
-                        <mainClass>Main</mainClass>
-                        <name>webapp</name>
-                    </program>
-                </programs>
-            </configuration>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>assemble</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
- -->
+     
 		</plugins>
  
     <finalName>PersonWebservice</finalName>

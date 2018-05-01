@@ -15,32 +15,44 @@ public class PeopleService {
 	PreparedStatement pst1 = null;
 	ResultSet rs1 = null;
 	People ppl = null;
+	Error error = null;
 	List<People> listOfPeople = new ArrayList<People>();
 	
-	public boolean validate(People p) throws Exception {
+	public Error validate(People p)  {
 		boolean validated = true;
 		String name = p.getName();
 		int age = p.getAge();
 		String dob = p.getDob();
 		String email = p.getEmail();
-		
+		error = new Error();
 		if(name == null || name.trim().length() == 0){
 			validated = false;
-			throw new Exception("Name can't be empty.");
+			error.setStatusCode(422);
+			error.setStatusMessage("Name can't be empty.");
+			
 		}
 		if(age<=0) {
 			validated = false;
-			throw new Exception("Age can't be empty");
+			error.setStatusCode(422);
+			error.setStatusMessage("age can't be empty.");
 		}
-		if(dob == null) {
+		if(dob == null || dob.trim().length() == 0) {
 			validated = false;
-			throw new Exception("DOB can't be empty");
+			error.setStatusCode(422);
+			error.setStatusMessage("DOB can't be empty.");
 		}
 		if(email == null || email.trim().length() == 0) {
 			validated = false;
-			throw new Exception("Emails can't be empty");
+			error.setStatusCode(422);
+			error.setStatusMessage("Email can't be empty.");
+		} else {
+			if(!email.contains("@") && !email.contains(".")) {
+				validated = false;
+				error.setStatusCode(400);
+				error.setStatusMessage("Please enter valid email format.");
+			}
 		}
-		return validated;
+		return error;
 	}
 	
 	final String VALIDATE_PEOPLE = "select count(*) from people where id = ?";
@@ -53,9 +65,9 @@ public class PeopleService {
 	      System.out.println("validateID sql: "+ pst);
 	      while( rs != null && rs.next()) {
 		    	  int count = rs.getInt("count");
-		    	  if(count == 0)
-		    	  	throw new Exception("The person with id :" + id + " doesn't exist.");
-		      else
+		    	  if(count == 0) {
+		    	  	validated = false;
+		    	  } else
 		    	  	validated = true;
 	      }
 		return validated;
@@ -172,5 +184,4 @@ public class PeopleService {
 		}
 		return count;
 	}
-	
 }
